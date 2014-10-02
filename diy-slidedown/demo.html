@@ -11,7 +11,7 @@
   <!-- <link href="stylesheets/bootstrap.min.css" rel="stylesheet"> -->
   <link href="stylesheets/bootstrap-v3.2.0.css" rel="stylesheet">
   <link href="stylesheets/styles.css" rel="stylesheet">
-
+  <style>body{font-family:AvenirNext-Regular,"Lucida Grande","Lucida Unicode","Segoe Ui","Trebuchet MS",sans-serif;}h1,h2,h3,h4,b,strong,em{font-family:AvenirNextCondensed-DemiBold,"Lucida Grande","Segoe Ui","Trebuchet MS",sans-serif}p{font-size:1.5em;max-width:30em;}.pln{color:#000}@media screen{.str{color:#080}.kwd{color:#008}.com{color:#800}.typ{color:#606}.lit{color:#066}.pun,.opn,.clo{color:#660}.tag{color:#008}.atn{color:#606}.atv{color:#080}.dec,.var{color:#606}.fun{color:red}}@media print,projection{.str{color:#060}.kwd{color:#006;font-weight:700}.com{color:#600;font-style:italic}.typ{color:#404;font-weight:700}.lit{color:#044}.pun,.opn,.clo{color:#440}.tag{color:#006;font-weight:700}.atn{color:#404}.atv{color:#060}}pre.prettyprint{padding:2px;border:1px solid #888}ol.linenums{margin-top:0;margin-bottom:0}li.L0,li.L1,li.L2,li.L3,li.L5,li.L6,li.L7,li.L8{list-style-type:none}li.L1,li.L3,li.L5,li.L7,li.L9{background:#eee}</style>
 
   <!--[if lt IE 9]>
     <script src="//html5shim.googlecode.com/svn/trunk/html5.js"></script>
@@ -116,6 +116,100 @@
 
       <h1>Bootstrap: Dropdown on Hover Plugin Demo</h1>
       <p>Hover over the nav items to see that they activate on hover. I'm setting the instantlyCloseOthers flag to true, so when you hover over a new nav item, the other ones instantly close (instead of waiting for their timeouts). See <a href="http://cameronspear.com/blog/bootstrap-dropdown-on-hover-plugin/">cameronspear.com/blog/bootstrap-dropdown-on-hover-plugin/</a> for more.</p>
+
+<h2>DIY Slidedown</h2>
+
+<p>Files for this are in the diy-slidedown folder, on  <a href="https://github.com/atelierbram/bootstrap-hover-dropdown/tree/master/diy-slidedown">Github</a>.
+Added “do-it-yourself” CSS-transitions to the dropdown lists, making the value for <code>padding-bottom</code> on the dropdown-list transition from zero, (<em>or mabybe some low value like <code>5px</code></em>) to its full length. This works because the <code>height</code> value for the list has been reset to zero. This creates this custom <code>slidedown</code> effect, you can <a href="http://codepen.io/atelierbram/blog/interplay-css-javascript">read more about this here</a>.</p>
+
+<h2>Making the toggle-links clickable</h2>
+
+<p>Essential is to have <code>data-toggle="dropdown" data-target="#"</code> on the toggle links in the <code>HTML</code>-markup, in order for this to work.</p>
+
+<pre class="prettyprint lang-html"><code>
+ &lt;a href="http://www.google.com" class="dropdown-toggle" data-toggle="dropdown" data-hover="dropdown" data-toggle="dropdown" data-target="#"&gt;
+</code></pre>
+
+<p>From the docs for dropdowns <a href="http://getbootstrap.com/javascript/#dropdowns">on getbootstrap.com</a></p>
+
+<blockquote>
+  <p>the dropdown events which are fired at the <code>.dropdown-menu</code>'s parent element.</p>
+</blockquote>
+
+  <div class="table-responsive">
+    <table class="table table-bordered table-striped">
+      <thead>
+        <tr>
+          <th style="width: 150px;">Event Type</th>
+          <th>Description</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>show.bs.dropdown</td>
+          <td>This event fires immediately when the show instance method is called. The toggling anchor element is available as the <code>relatedTarget</code> property of the event.</td>
+        </tr>
+        <tr>
+          <td>shown.bs.dropdown</td>
+          <td>This event is fired when the dropdown has been made visible to the user (will wait for CSS transitions, to complete).  The toggling anchor element is available as the <code>relatedTarget</code> property of the event.</td>
+        </tr>
+        <tr>
+          <td>hide.bs.dropdown</td>
+          <td>This event is fired immediately when the hide instance method has been called. The toggling anchor element is available as the <code>relatedTarget</code> property of the event.</td>
+        </tr>
+        <tr>
+          <td>hidden.bs.dropdown</td>
+          <td>This event is fired when the dropdown has finished being hidden from the user (will wait for CSS transitions, to complete). The toggling anchor element is available as the <code>relatedTarget</code> property of the event.</td>
+        </tr>
+      </tbody>
+    </table>
+  </div><!-- ./bs-table-responsive -->
+
+<p>One can hook into these to do something on those events:</p>
+
+<pre class="prettyprint lang-js"><code>
+  // effectively create two different functioning dropdowns: this is for touch
+  $('.dropdown').on({
+
+  'hide.bs.dropdown': function(e) {
+
+  $(this).on('click', function(e) {
+    var self = $(this);
+    $(this).toggleClass('is-clicked').siblings('.dropdown').removeClass('is-clicked');
+
+    if (self.hasClass('open', 'is-clicked')) {
+      e.stopPropagation();
+    }
+    else {
+      return this;
+    }
+  });
+
+  }
+
+  });
+
+  // effectively make two different functioning dropdowns: this is for desktop, or to be precise: non-touch
+  $('.dropdown').on({
+
+  'show.bs.dropdown': function(e) {
+
+    $(this).on('click', function(e) {
+
+  if('ontouchstart' in document) {
+        return this;
+      }
+      else {
+        e.stopPropagation();
+      }
+    });
+  }
+
+  });
+</code></pre>
+
+<p>The javascript for this works, but probably could be improved upon, (<em>should one use <code>relatedTarget</code> as suggested in the docs? Don't know, couldn’t make that work</em>). So please let me know if there is a better way of doing this. </p>
+
 
       <h2><em>New!</em> Try it with data-attributes</h2>
 
@@ -294,5 +388,8 @@
   </script>
   <script src="javascripts/diy-slidedown.js"></script>
   <script src="javascripts/clickable-toggles.js"></script>
+
+<!-- non-essential, just included for code syntax-highlighting -->
+  <script src="https://google-code-prettify.googlecode.com/svn/loader/run_prettify.js"></script>
 </body>
 </html>
