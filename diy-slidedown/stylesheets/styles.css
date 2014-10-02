@@ -1,0 +1,70 @@
+.dropdown-menu {
+  /* need to override the `display: none` value for the transition on the `padding-bottom` to work, but also need something else to hide the display of the submenu by default, here an extreme high negative left value for the not-so small screens */
+  display: block;
+  /* then set the height to zero */
+  height: 0;
+  overflow: hidden;
+  /* the transition itself */
+  -webkit-transition: padding-bottom 0.75s cubic-bezier(0.6, 0.4, 0.25, 0.75);
+          transition: padding-bottom 0.75s cubic-bezier(0.6, 0.4, 0.25, 0.75);
+}
+@media (min-width: 768px) {
+  .dropdown-menu {
+    left: -9999px;
+  }
+}
+
+/* bring it back in when hovered or clicked */
+@media (min-width: 768px) {
+  .open .dropdown-menu {
+    left: 0;
+  }
+}
+
+/* Interplay between CSS and Javascript on Transitions, read more about this here: http://codepen.io/atelierbram/blog/interplay-css-javascript */
+.open[class*="itemcount-1"] .dropdown-menu {
+  padding-bottom: 26px;
+}
+
+.open[class*="itemcount-2"] .dropdown-menu {
+  padding-bottom: 52px;
+}
+
+.open[class*="itemcount-3"] .dropdown-menu {
+  padding-bottom: 78px;
+}
+
+.open[class*="itemcount-4"] .dropdown-menu {
+  padding-bottom: 104px;
+}
+
+.open[class*="itemcount-5"] .dropdown-menu {
+  padding-bottom: 130px;
+}
+
+.open[class*="itemcount-6"] .dropdown-menu {
+  padding-bottom: 156px;
+}
+
+.open[class*="itemcount-7"] .dropdown-menu {
+  padding-bottom: 182px;
+}
+
+.open[class*="itemcount-8"] .dropdown-menu {
+  padding-bottom: 208px;
+}
+
+/* general */
+@media (max-width: 767px) {
+  .navbar-brand {
+    width: 100%;
+  }
+}
+body {
+  padding-top: 70px;
+  min-height: 410px;
+}
+
+.tab-content p {
+  padding: 10px 0;
+}

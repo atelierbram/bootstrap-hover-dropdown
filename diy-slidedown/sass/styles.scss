@@ -1,0 +1,12 @@
+// @import "bootstrap-compass";
+// @import "bootstrap-variables";
+// @import "bootstrap";
+@import "components/diy-slidedown";
+body {
+  padding-top: 70px;
+  min-height: 410px;
+}
+.tab-content p {
+  padding: 10px 0;
+}
+

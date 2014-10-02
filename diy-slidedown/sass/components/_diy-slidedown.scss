@@ -1,0 +1,40 @@
+$screen-sm: 768px;
+$screen-sm-max: 767px;
+// Submenu
+.dropdown-menu {
+  /* need to override the `display: none` value for the transition on the `padding-bottom` to work, but also need something else to hide the display of the submenu by default, here an extreme high negative left value for the not-so small screens */
+  display: block;
+  /* then set the height to zero */
+  height: 0;
+  overflow: hidden;
+  /* the transition itself */
+  transition: padding-bottom .75s cubic-bezier(0.6, 0.4, 0.25, 0.75);
+
+  @media (min-width: $screen-sm) {
+    left: -9999px;
+  }
+}
+
+/* bring it back in when hovered or clicked */
+.open .dropdown-menu {
+  @media (min-width: $screen-sm) {
+    left: 0;
+  }
+}
+
+/* Interplay between CSS and Javascript on Transitions, read more about this here: http://codepen.io/atelierbram/blog/interplay-css-javascript */
+$item-count-list: 1 2 3 4 5 6 7 8;
+// each item x 26px
+$item-value-list: 26px 52px 78px 104px 130px 156px 182px 208px;
+@for $i from 1 through length($item-count-list) {
+  .open[class*="itemcount-#{$i}"] .dropdown-menu {
+    padding-bottom: nth($item-value-list, $i);
+  }
+}
+
+/* general */
+@media (max-width: $screen-sm-max) {
+  .navbar-brand {
+    width: 100%;
+  }
+}
