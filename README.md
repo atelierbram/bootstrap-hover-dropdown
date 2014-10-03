@@ -8,7 +8,7 @@ Added “do-it-yourself” CSS-transitions to the dropdown lists, making the val
 Essential is to have `data-toggle="dropdown" data-target="#"` on the toggle links in the `HTML`-markup, in order for this to work.
 
 ```html
- <a href="http://www.google.com" class="dropdown-toggle" data-toggle="dropdown" data-hover="dropdown" data-toggle="dropdown" data-target="#">
+ <a href="http://www.google.com" class="dropdown-toggle" data-toggle="dropdown" data-hover="dropdown" data-target="#">
 ```
 
 From the docs for dropdowns [on getbootstrap.com](http://getbootstrap.com/javascript/#dropdowns)
